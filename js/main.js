@@ -1,132 +1,190 @@
+//open/close modal
 
-document.querySelector('.header__login').onclick = () =>{
-  document.querySelector('.modal-auth').classList.toggle('is-open');
-  document.querySelector('body').classList.toggle('lock')
+const buttonAuth = document.querySelector('.header__login');
+const modalAuth = document.querySelector('.modal-auth');
+const closeAuth = document.querySelector('.modal-auth__close');
+const loginInput = document.querySelector('#login');
+const userName = document.querySelector('.header__username');
+const outButton = document.querySelector('.header__out');
+const body = document.querySelector('body');
+const modalCart =   document.querySelector('.modal-cart');
+const logInForm = document.querySelector('#logInForm');
+const restRow = document.querySelector('.rest__row');
+const main = document.querySelector('.main');
+const rest = document.querySelector('.rest');
+const tanuki = document.querySelector('.tanuki');
+const tanukiTop = document.querySelector('.tanuki__top');
+const logo = document.querySelector('.logo');
+const tanukiRow = document.querySelector('.tanuki__row');
+
+let login = localStorage.getItem('username');
+
+const getData = async function(url){
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Ошибка по адресу ${url},
+     статус ошибки ${response.status}!`);
+  }
+  return await response.json();
 }
 
-document.querySelector('.modal-auth__close').onclick = () =>{
-  document.querySelector('.modal-auth').classList.remove('is-open');
-  document.querySelector('body').classList.remove('lock')
+function toggleAuth(){
+  modalAuth.classList.toggle('is-open');
+  body.classList.toggle('lock');
+  loginInput.style.border = '';
 }
 
-document.querySelector('.header__cart').onclick = () =>{
-  document.querySelector('.modal-cart').classList.toggle('is-open');
-  document.querySelector('body').classList.toggle('lock')
+function toggleCart(){
+  modalCart.classList.toggle('is-open');
+  body.classList.toggle('lock')
 }
 
-document.querySelector('.modal-cart__close').onclick = () =>{
-  document.querySelector('.modal-cart').classList.remove('is-open');
-  document.querySelector('body').classList.remove('lock')
-}
-
-
-document.querySelector('.modal-cart__disclame').onclick = () =>{
-  document.querySelector('.modal-cart').classList.remove('is-open');
-  document.querySelector('body').classList.remove('lock')
-}
 // authorization
 
+function authorized(){
+  function logOut(){
+    login = '';
+    buttonAuth.style.display = '';
+    userName.style.display = 'none';
+    outButton.style.display = '';
+    outButton.removeEventListener('click',logOut);
+    localStorage.removeItem('username');
+    checkAuth();
 
-//const buttonAuth = document.querySelector('.header__login');
-//const modalAuth = document.querySelector('.modal-auth');
-//const closeAuth = document.querySelector('.modal-auth__close');
-//const logInForm = document.querySelector('#modal-auth__loginForm');
-//const loginInput = document.querySelector('#login');
-//const userName = document.querySelector('.header__username');
-//const outButton = document.querySelector('.header__out');
+  }
+  userName.textContent = login;
+  buttonAuth.style.display = 'none';
+  userName.style.display = 'inline-block';
+  outButton.style.display = 'block';
+  outButton.addEventListener('click',logOut);
+}
 
-//let login = localStorage.getItem('username');
+function notAuthorized(){
 
-//function toggleModalAuth() {
-//    modalAuth.classList.toggle('is-open');
-//}
+  function logIn(event){
+    event.preventDefault();
+    login = loginInput.value;
+    if (login){
+      localStorage.setItem('username',login);
+      toggleAuth();
+      buttonAuth.removeEventListener('click',toggleAuth);
+      closeAuth.removeEventListener('click',toggleAuth);
+      logInForm.removeEventListener('submit',logIn);
+      logInForm.reset();
+      checkAuth();
+    } else {
+      loginInput.style.border = '2px solid indianred';
+    }
+  }
 
-//function borderClear(){
-//    loginInput.style.border = 'none';
-//}
-//function authorized() {
-//    function logOut(){
-//        login = '';
-//        localStorage.removeItem('username');
-//        userName.style.display = 'none';
-//        outButton.style.display = '';
-//        buttonAuth.style.display = '';
-//        outButton.removeEventListener('click', logOut);
-//        checkAuth();
-//    }
+  buttonAuth.addEventListener('click',toggleAuth);
+  closeAuth.addEventListener('click',toggleAuth);
+  logInForm.addEventListener('submit',logIn);
+}
 
-//    console.log('Авторизован');
+function checkAuth() {
+  if (login) {
+    authorized();
+  } else {
+    notAuthorized();
+  }
+}
 
-//    userName.textContent = login;
+//rendering
 
-//    buttonAuth.style.display = 'none';
-//    outButton.style.display = 'block';
-//    userName.style.display = 'block';
+function createCardRest(rest){
 
-//    outButton.addEventListener('click', logOut);
-//}
+  const { image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery } = rest;
+  const card = `
+  <a  class="rest__column card" data-products=${products}>
+     <div class = 'card__img'><img src=${image} alt=""></div> 
+    <div class="card__top">
+          <h3 class="card__title">${name}</h3>
+          <div class="card__time">${timeOfDelivery} мин</div>
+    </div>
+      <div class="card__bot">
+      <div class="card__rating">${stars}</div>
+      <div class="card__price">От ${price} ₽</div>
+      <div class="card__type">${kitchen}</div>
+    </div>
+  </a>
+  `;
+  restRow.insertAdjacentHTML('beforeend',card)
+}
 
-//function notAuthorized() {
+function addMenuTop(restaurant){
+  const name = restaurant.children[1].children[0].textContent;
+  const stars = restaurant.children[2].children[0].textContent;
+  const price = restaurant.children[2].children[1].textContent;
+  const kitchen = restaurant.children[2].children[2].textContent;
+  const menuTop = `
+<div class="tanuki__top">
+  <h2 class="tanuki__title"><span>${name}</span><span class="tanuki__rating">${stars}</span></h2>
+  <div class="tanuki__category"> <span>${price}</span> <img src="img/tanuki/tanuki__point.svg" alt="" class="point"/> <span>${kitchen}</span> </div>
+</div>
+  `;
+  tanukiTop.insertAdjacentHTML('afterbegin',menuTop);
+}
 
-//    console.log('Не авторизован');
-//    function checkLogin(event){
-//        event.preventDefault();
-//        login = loginInput.value;
-//        localStorage.setItem('username', login);
-//        if(login){
-//            logIn();
-//            borderClear();
-//        } else {
-//            loginInput.style.border = '1px solid red'
-//        }
-//    }
-//    function logIn(event){
-//        // event.preventDefault();
-//        login = loginInput.value;
-//        localStorage.setItem('username', login);
-//        toggleModalAuth();
-//        buttonAuth.removeEventListener('click', toggleModalAuth);
-//        closeAuth.removeEventListener('click', toggleModalAuth);
-//        logInForm.removeEventListener('submit', logIn);
-//        logInForm.reset();
-//        loginInput.style.border = 'none'
-//        checkAuth();
-//    }
+function createCardGood(goods){
+  const { description, id, image, name, price } = goods;
 
-//    buttonAuth.addEventListener('click', toggleModalAuth);
-//    closeAuth.addEventListener('click', toggleModalAuth);
-//    closeAuth.addEventListener('click', borderClear);
-//    logInForm.addEventListener('submit', checkLogin);
+  const card =`
+ <div class="tanuki__card">
+ <div class="tanuki__img"><img src=${image} alt=""></div> 
+  <div class="tanuki__body">
+    <h3 class="tanuki__name">${name}</h3>
+    <p class="tanuki__text">${description}</p>
+    <div class="tanuki__buy">
+      <a href="#" class="tanuki__btn">В корзину</a>
+      <span class="tanuki__price">${price} ₽</span>
+    </div>
+  </div>
+</div>
+  `;
+  tanukiRow.insertAdjacentHTML('beforeend',card);
+}
 
-//}
-//function checkAuth(){
-//    if (login){
-//        authorized();
-//    } else {
-//        notAuthorized();
-//    }
-//}
+function openGoods(event){
+  const target = event.target;
+  const restaurant = target.closest('.card');
+  if (restaurant  && login){
+    tanukiRow.textContent = '';
+    tanukiTop.textContent = '';
+    main.classList.add('hide');
+    rest.classList.add('hide');
+    tanuki.classList.remove('hide');
+    addMenuTop(restaurant);
+    getData(`./db/${restaurant.dataset.products}`).then((data) =>{
+      data.forEach(createCardGood);
+    });
+  } else if(restaurant){
+  toggleAuth();
+  }
+}
 
-//checkAuth();
+function closeGoods(){
+    main.classList.remove('hide');
+    rest.classList.remove('hide');
+    tanuki.classList.add('hide');
+}
 
-////
-//const cardsRestaurants = document.querySelector('.rest__row');
+function init(){
+  document.querySelector('.header__cart').addEventListener('click',toggleCart);
 
-//function createCardRestaurant(){
-//    const card = `
-//<a class="rest__column card">
-//    <img src="img/home/rest/card_1.png" alt="" class="card__img">
-//    <div class="card__top">
-//        <h3 class="card__title">Пицца плюс</h3>
-//        <div class="card__time">50 мин</div>
-//    </div>
-//    <div class="card__bot">
-//        <div class="card__rating">4.5</div>
-//        <div class="card__price">От 900 ₽</div>
-//        <div class="card__type">Пицца </div>
-//    </div>
-//</a>
-//    `;
-//    cardsRestaurants.insertAdjacentHTML('afterbegin', card)
-//}
-//createCardRestaurant();
+  document.querySelector('.modal-cart__close').addEventListener('click',toggleCart);
+
+  document.querySelector('.modal-cart__disclame').addEventListener('click',toggleCart);
+
+  restRow.addEventListener('click',openGoods);
+
+  logo.addEventListener('click',closeGoods);
+
+  checkAuth();
+
+  getData('./db/partners.json').then((data) =>{
+    data.forEach(createCardRest);
+  });
+}
+
+init();

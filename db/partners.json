@@ -14,8 +14,8 @@
     "stars": 4.3,
     "price": 1200,
     "kitchen": "Суши, роллы",
-    "image": "img/tanuki/preview.jpg",
-    "products": "tanuki.json"
+    "image": "img/tanuki-rest/preview.jpg",
+    "products": "tanuki-rest.json"
   },
   {
     "name": "FoodBand",

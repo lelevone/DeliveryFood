@@ -17,7 +17,7 @@
 <header class="header">
 	<div class="container">
 		<div class="header__row">
-			<a class="header__logo logo" href="index.html">
+			<a class="header__logo logo">
 			<img src="img/home/header/icon.svg" alt="Delivery Food" class="logo__icon">
 			<div class="logo__name">Delivery Food</div>
 			</a>
@@ -26,8 +26,10 @@
 			</div>
 		
 			<div class="header__buttons">
-				<a href="#" class="header__login header__btn"><span class="login__btn btn-icon">Войти</span></a>
-				<a href="#" class="header__cart header__btn"><span class="cart__btn btn-icon">Корзина</span></a>
+				<span class="header__username"></span>
+				<button class="header__login header__btn"><span class="login__btn btn-icon">Войти</span></button>
+				<button class="header__out header__btn"><span class="out__btn btn-icon">Выйти</span></button>
+				<button class="header__cart header__btn"><span class="cart__btn btn-icon">Корзина</span></button>
 			</div>
 		</div>
 	</div>
@@ -55,83 +57,16 @@
 				</div>
 
 				<div class="rest__row">
-					<a href="restaurant.html" class="rest__column card">
-						<img src="img/home/rest/card_1.png" alt="" class="card__img">
-						<div class="card__top">
-							<h3 class="card__title">Пицца плюс</h3>
-							<div class="card__time">50 мин</div>
-						</div>
-						<div class="card__bot">
-							<div class="card__rating">4.5</div>
-							<div class="card__price">От 900 ₽</div>
-							<div class="card__type">Пицца </div>
-						</div>
-					</a>
 
-					<a href="restaurant.html" class="rest__column card">
-						<img src="img/home/rest/card_2.png" alt="" class="card__img">
-						<div class="card__top">
-							<h3 class="card__title">Тануки</h3>
-							<div class="card__time">35 мин</div>
-						</div>
-						<div class="card__bot">
-							<div class="card__rating">4.7</div>
-							<div class="card__price">От 900 ₽</div>
-							<div class="card__type">Суши и ролы</div>
-						</div>
-					</a>
+				</div>
+			</div>
+		</section>
 
-					<a href="restaurant.html" class="rest__column card">
-						<img src="img/home/rest/card_3.png" alt="" class="card__img">
-						<div class="card__top">
-							<h3 class="card__title">FoodBand</h3>
-							<div class="card__time">40 мин</div>
-						</div>
-						<div class="card__bot">
-							<div class="card__rating">4.1</div>
-							<div class="card__price">От 900 ₽</div>
-							<div class="card__type">Пицца</div>
-						</div>
-					</a>
-
-					<a href="restaurant.html" class="rest__column card">
-						<img src="img/home/rest/card_4.png" alt="" class="card__img">
-						<div class="card__top">
-							<h3 class="card__title">Жадина-пицца</h3>
-							<div class="card__time">55 мин</div>
-						</div>
-						<div class="card__bot">
-							<div class="card__rating">4.3</div>
-							<div class="card__price">От 900 ₽</div>
-							<div class="card__type">Суши и ролы</div>
-						</div>
-					</a>
-
-					<a href="restaurant.html" class="rest__column card">
-						<img src="img/home/rest/card_5.png" alt="" class="card__img">
-						<div class="card__top">
-							<h3 class="card__title">Точка еды</h3>
-							<div class="card__time">60 мин</div>
-						</div>
-						<div class="card__bot">
-							<div class="card__rating">4.5</div>
-							<div class="card__price">От 900 ₽</div>
-							<div class="card__type">Пицца</div>
-						</div>
-					</a>
-
-					<a href="restaurant.html" class="rest__column card">
-						<img src="img/home/rest/card_6.png" alt="" class="card__img">
-						<div class="card__top">
-							<h3 class="card__title">PizzaBurger</h3>
-							<div class="card__time">50 мин</div>
-						</div>
-						<div class="card__bot">
-							<div class="card__rating">3.9</div>
-							<div class="card__price">От 900 ₽</div>
-							<div class="card__type">Пиццы</div>
-						</div>
-					</a>
+		<section class="tanuki hide">
+			<div class="container">
+				<div class="tanuki__top">
+				</div>
+				<div class="tanuki__row">
 				</div>
 			</div>
 		</section>
@@ -163,7 +98,7 @@
 <div class="modal-auth">
 	<div class="modal-auth__dialog">
 		<span class="modal-auth__close"><img src="img/close.svg" alt="" /></span>
-		<form id="modal-auth__loginForm">
+		<form class="modal-auth__loginForm" id="logInForm">
 			<fieldset class="modal-auth__body">
 				<legend class="modal-auth__title">Авторизация</legend>
 				<label class="modal-auth__label">
@@ -176,8 +111,9 @@
 				</label>
 			</fieldset>
 					<button class="modal-auth__btn" type="submit">Войти</button>
-			</div>
+
 		</form>
+	</div>
 	</div>
 
 	<div class="modal-cart">
