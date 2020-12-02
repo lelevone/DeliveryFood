@@ -2,6 +2,7 @@
 
 const buttonAuth = document.querySelector('.header__login');
 const modalAuth = document.querySelector('.modal-auth');
+const buttonCart = document.querySelector('.header__cart');
 const closeAuth = document.querySelector('.modal-auth__close');
 const loginInput = document.querySelector('#login');
 const userName = document.querySelector('.header__username');
@@ -16,8 +17,19 @@ const tanuki = document.querySelector('.tanuki');
 const tanukiTop = document.querySelector('.tanuki__top');
 const logo = document.querySelector('.logo');
 const tanukiRow = document.querySelector('.tanuki__row');
+const modalCartRow = document.querySelector('.modal-cart__row');
+const cartPricetag = document.querySelector('.modal-cart__pricetag');
 
 let login = localStorage.getItem('username');
+
+let cart = JSON.parse(localStorage.getItem(`delivery_${login}`)) || [];
+
+function saveCart() {
+  localStorage.setItem(`delivery_${login}`,JSON.stringify(cart))
+}
+function downloadCart(){
+  cart = JSON.parse(localStorage.getItem(`delivery_${login}`));
+}
 
 const getData = async function(url){
   const response = await fetch(url);
@@ -55,7 +67,8 @@ function authorized(){
   userName.textContent = login;
   buttonAuth.style.display = 'none';
   userName.style.display = 'inline-block';
-  outButton.style.display = 'block';
+  outButton.style.display = 'flex';
+  buttonCart.style.display = 'block';
   outButton.addEventListener('click',logOut);
 }
 
@@ -67,6 +80,7 @@ function notAuthorized(){
     if (login){
       localStorage.setItem('username',login);
       toggleAuth();
+      downloadCart();
       buttonAuth.removeEventListener('click',toggleAuth);
       closeAuth.removeEventListener('click',toggleAuth);
       logInForm.removeEventListener('submit',logIn);
@@ -80,6 +94,7 @@ function notAuthorized(){
   buttonAuth.addEventListener('click',toggleAuth);
   closeAuth.addEventListener('click',toggleAuth);
   logInForm.addEventListener('submit',logIn);
+  buttonCart.style.display = '';
 }
 
 function checkAuth() {
@@ -91,6 +106,7 @@ function checkAuth() {
 }
 
 //rendering
+
 
 function createCardRest(rest){
 
@@ -136,7 +152,7 @@ function createCardGood(goods){
     <h3 class="tanuki__name">${name}</h3>
     <p class="tanuki__text">${description}</p>
     <div class="tanuki__buy">
-      <a href="#" class="tanuki__btn">В корзину</a>
+      <button class="tanuki__btn"  id="${id}">В корзину</button>
       <span class="tanuki__price">${price} ₽</span>
     </div>
   </div>
@@ -169,22 +185,105 @@ function closeGoods(){
     tanuki.classList.add('hide');
 }
 
+
+function addToCart(event){
+  const target = event.target;
+  const buttonAddToCart = target.closest('.tanuki__btn');
+  if(buttonAddToCart){
+    const card = target.closest('.tanuki__card');
+    const title = card.querySelector('.tanuki__name').textContent;
+    const cost = card.querySelector('.tanuki__price').textContent;
+    const id = buttonAddToCart.id;
+    const food = cart.find((item) => {
+      return item.id === id;
+    })
+  if(food){
+    food.count ++;
+    } else {
+      cart.push({
+        id,
+        title,
+        cost,
+        'count' : 1,
+      });
+    }
+    saveCart();
+  }
+}
+
+function renderCart(){
+  modalCartRow.textContent = '';
+
+  cart.forEach(({ cost, title, id, count }) => {
+    const itemCart = `
+      <div class="modal-cart__column food">
+        <span class="food__name">${title}</span>
+        <div class="food__bottom">
+          <strong class="food__price">${cost}</strong>
+          <button class="food__minus" data-id="${id}">-</button>
+          <span class="food__counter">${count}</span>
+          <button class="food__plus" data-id="${id}">+</button>
+        </div>
+      </div>
+    `
+    modalCartRow.insertAdjacentHTML('afterbegin',itemCart);
+  })
+  const totalPrice = cart.reduce((result, item) => {
+    return result + (parseFloat(item.cost) * item.count);
+  }, 0)
+  cartPricetag.textContent = totalPrice + " ₽";
+}
+
+function changeCount(event) {
+  const target = event.target;
+  if (target.classList.contains('food__plus')){
+    const food = cart.find(function (item) {
+      return item.id === target.dataset.id;
+    })
+      food.count ++;
+      renderCart();
+  }
+
+  if (target.classList.contains('food__minus')){
+    const food = cart.find(function (item) {
+      return item.id === target.dataset.id;
+    })
+    if (food.count == 1){
+      food.count --;
+      cart.splice(cart.indexOf(food),1);
+      renderCart();
+    } else {
+      food.count --;
+      renderCart();
+    }
+  }
+}
+
 function init(){
-  document.querySelector('.header__cart').addEventListener('click',toggleCart);
+  buttonCart.addEventListener('click',() =>{
+    renderCart();
+    toggleCart();
+  });
 
   document.querySelector('.modal-cart__close').addEventListener('click',toggleCart);
 
-  document.querySelector('.modal-cart__disclame').addEventListener('click',toggleCart);
+  document.querySelector('.modal-cart__disclame').addEventListener('click',() => {
+    cart.length = 0;
+    renderCart();
+  });
 
   restRow.addEventListener('click',openGoods);
 
   logo.addEventListener('click',closeGoods);
 
+  tanukiRow.addEventListener('click',addToCart);
+
   checkAuth();
+
+  modalCart.addEventListener('click', changeCount);
 
   getData('./db/partners.json').then((data) =>{
     data.forEach(createCardRest);
   });
 }
-
 init();
