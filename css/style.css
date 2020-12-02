@@ -1301,3 +1301,7 @@ margin-left: 17px;
 		order:5;
 	}
 }
+.tanuki__card, .logo, .modal-auth__close, modal-cart__close, .card{
+	cursor: pointer;
+}
+
