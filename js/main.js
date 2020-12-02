@@ -28,7 +28,7 @@ function saveCart() {
   localStorage.setItem(`delivery_${login}`,JSON.stringify(cart))
 }
 function downloadCart(){
-  cart = JSON.parse(localStorage.getItem(`delivery_${login}`));
+  cart = JSON.parse(localStorage.getItem(`delivery_${login}`)) || [];
 }
 
 const getData = async function(url){
