@@ -22,7 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd8c590e-e45d-4fee-aef4-d50f0e17fa17" name="Default Changelist" comment="fix cart" />
+    <list default="true" id="fd8c590e-e45d-4fee-aef4-d50f0e17fa17" name="Default Changelist" comment="fix cursor">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +62,10 @@
       <workItem from="1606773052719" duration="599000" />
       <workItem from="1606810439775" duration="24808000" />
       <workItem from="1606894180211" duration="11933000" />
-      <workItem from="1606913751567" duration="5739000" />
+      <workItem from="1606913751567" duration="7786000" />
+      <workItem from="1607021418024" duration="62000" />
+      <workItem from="1607021697505" duration="395000" />
+      <workItem from="1607098311521" duration="28000" />
     </task>
     <task id="LOCAL-00001" summary="add cart">
       <created>1606923277159</created>
@@ -76,7 +81,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606923604185</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix cursor">
+      <created>1606927615895</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606927615895</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -97,17 +109,18 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add cart" />
     <MESSAGE value="fix cart" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix cart" />
+    <MESSAGE value="fix cursor" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix cursor" />
   </component>
   <component name="WindowStateProjectService">
     <state x="277" y="57" key="SettingsEditor" timestamp="1606822854995">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606822854995" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606923607868">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1606927618264">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606923607868" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1606927618264" />
     <state x="778" y="245" width="672" height="678" key="search.everywhere.popup" timestamp="1606898150145">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

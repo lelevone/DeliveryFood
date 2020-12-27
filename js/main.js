@@ -14,6 +14,7 @@ const restRow = document.querySelector('.rest__row');
 const main = document.querySelector('.main');
 const rest = document.querySelector('.rest');
 const tanuki = document.querySelector('.tanuki');
+const tanukiI = document.querySelector('.tanukiI');
 const tanukiTop = document.querySelector('.tanuki__top');
 const logo = document.querySelector('.logo');
 const tanukiRow = document.querySelector('.tanuki__row');
